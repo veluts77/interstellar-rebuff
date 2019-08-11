@@ -23,3 +23,10 @@ dependencies {
 application {
     mainClassName = "interstellar.rebuff.AppKt"
 }
+
+tasks.withType<Jar> {
+    manifest {
+        attributes["Main-Class"] = application.mainClassName
+    }
+    from(Callable { configurations["runtimeClasspath"].map { if (it.isDirectory) it else zipTree(it) } })
+}
